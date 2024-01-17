@@ -41,4 +41,67 @@ sudo hostnamectl set-hostname node-1
 # node-2
 sudo hostnamectl set-hostname node-2
 ```
+Update the hosts file on the control plane, node-1 and node-2 to enable communication via hostnames
+
+
+```sh
+# control-plane, node-1 and node-2
+sudo vi /etc/hosts
+172.31.81.34 control-plane
+172.31.81.93 node-1
+172.31.90.71 node-2
+```
+Disable swap on the control plane, node-1 and node-2 and if a swap entry is present in the fstab file then comment out the line
+
+```sh
+# control-plane, node-1 and node-2
+sudo swapoff -a
+sudo vi /etc/fstab
+  # comment out swap entry
+```
+To set containerd as our container runtime on the control plane, node-1 and node-2, first, we need to load some Kernel modules and modify system settings
+
+```sh
+# control-plane, node-1 and node-2
+
+cat << EOF | sudo tee /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+
+
+sudo modprobe br_netfilter
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
+```sh
+
+```
 
