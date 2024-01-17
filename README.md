@@ -15,7 +15,7 @@ It automates the creation of Kubernetes clusters by bootstrapping the control pl
 
 Before setting up the Kubernetes cluster, ensure the following prerequisites are met:
 
-*Create three Ubuntu 22.04 LTS instances for the control plane, node-1, and node-2.
+* Create three Ubuntu 22.04 LTS instances for the control plane, node-1, and node-2.
 
 *Each instance must have a minimum specification of 2 CPUs and 2 GB RAM.
 
