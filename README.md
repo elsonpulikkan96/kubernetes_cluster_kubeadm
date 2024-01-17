@@ -73,34 +73,111 @@ sudo modprobe overlay
 
 sudo modprobe br_netfilter
 ```
+
 ```sh
+# control-plane, node-1 and node-2
+cat << EOF | sudo tee /etc/sysctl.d/99-kubernetes-cri.conf
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+EOF
+
+sudo sysctl --system
+```
+**Package Installation steps**
+
+```sh
+# control-plane, node-1 and node-2
+sudo apt update
+
+sudo apt install -y contained
+```
+Once the packages are installed, generate a default configuration file for containerd on the control plane, node-1 and node-2
+
+```sh
+# control-plane, node-1 and node-2
+sudo mkdir -p /etc/containerd
+
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+```
+Change the SystemdCgroup value to true in the containerd configuration file and restart the service
+
+```sh
+# control-plane, node-1 and node-2
+
+sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+sudo systemctl restart containerd
+```
+We need to install some prerequisite packages on the control plane, node-1 and node-2 for configuring the Kubernetes package repository
+
+```sh
+# control-plane, node-1 and node-2
+
+sudo apt update
+
+sudo apt install -y apt-transport-https ca-certificates curl gpg
 
 ```
-```sh
+Download the public signing key for Kubernetes package repository on the control plane, node-1 and node-2
 
-```
 ```sh
+# control-plane, node-1 and node-2
 
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 ```
+Add the appropriate Kubernetes apt repository on the control plane, node-1 and node-2
 ```sh
+# control-plane, node-1 and node-2
 
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
-```sh
+Install kubeadm, kubelet and kubectl tools and hold their package version on the control plane, node-1 and node-2
 
-```
 ```sh
+# control-plane, node-1 and node-2
 
-```
-```sh
+sudo apt update
 
-```
-```sh
+sudo apt install -y kubeadm=1.29.0-1.1 kubelet=1.29.0-1.1 kubectl=1.29.0-1.1
 
-```
-```sh
-
-```
-```sh
+sudo apt-mark hold kubeadm kubelet kubectl
 
 ```
 
+```sh
+# control-plane
+sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.29.0
+
+```
+Once the installation is completed, set up our access to the cluster on the control plane
+
+```sh
+# control-plane
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
+```sh
+```
