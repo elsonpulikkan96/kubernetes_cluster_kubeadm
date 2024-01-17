@@ -11,7 +11,7 @@ kubeadm is a tool used to create Kubernetes clusters.
 
 It automates the creation of Kubernetes clusters by bootstrapping the control plane, joining the nodes, etc. Follows the Kubernetes release cycle and Open-source tool maintained by the Kubernetes community.
 
-Prerequisites
+**Prerequisites**
 
 Before setting up the Kubernetes cluster, ensure the following prerequisites are met:
 
@@ -25,7 +25,7 @@ Required ports must be allowed between instances.
 
 Swap must be disabled on instances.
 
-Steps
+**Steps**
 
 
 ```sh
