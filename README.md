@@ -30,9 +30,15 @@ Before setting up the Kubernetes cluster, ensure the following prerequisites are
 ```sh
 # control-plane-node
 sudo hostnamectl set-hostname control-plane
-
 ```
 
 ```sh
+# node-1
+sudo hostnamectl set-hostname node-1
+```
+
+```sh
+# node-2
+sudo hostnamectl set-hostname node-2
 ```
 
