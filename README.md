@@ -1,6 +1,6 @@
 # kubernetes_cluster_kubeadm
 
-Introduction
+**Introduction**
 
 This guide explains how to set up a three-node Kubernetes v1.29 cluster using kubeadm. Kubernetes is a container orchestration platform, and Kubeadm is a tool used to create and manage Kubernetes clusters.
 
