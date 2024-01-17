@@ -28,6 +28,7 @@ Before setting up the Kubernetes cluster, ensure the following prerequisites are
 
 
 ```sh
+# control-plane
 sudo hostnamectl set-hostname control-plane
 
 ```
