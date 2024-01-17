@@ -17,13 +17,13 @@ Before setting up the Kubernetes cluster, ensure the following prerequisites are
 
 * Create three Ubuntu 22.04 LTS instances for the control plane, node-1, and node-2.
 
-*Each instance must have a minimum specification of 2 CPUs and 2 GB RAM.
+* Each instance must have a minimum specification of 2 CPUs and 2 GB RAM.
 
-*Networking must be enabled between instances.
+* Networking must be enabled between instances.
 
-*Required ports must be allowed between instances.
+* Required ports must be allowed between instances.
 
-*Swap must be disabled on instances.
+* Swap must be disabled on instances.
 
 **Steps**
 
