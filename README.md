@@ -2,7 +2,7 @@
 
 **Introduction**
 
-This guide explains how to set up a three-node Kubernetes v1.29 cluster using kubeadm. Kubernetes is a container orchestration platform, and Kubeadm is a tool used to create and manage Kubernetes clusters.
+This guide explains how to set up a three-node Kubernetes v1.32 (latest) cluster using kubeadm. Kubernetes is a container orchestration platform, and Kubeadm is a tool used to create and manage Kubernetes clusters.
 
 **What is kubeadm?**
 
@@ -123,14 +123,12 @@ Download the public signing key for Kubernetes package repository on the control
 
 ```sh
 # control-plane, node-1 and node-2
-
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 ```
 Add the appropriate Kubernetes apt repository on the control plane, node-1 and node-2
 ```sh
 # control-plane, node-1 and node-2
-
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 Install kubeadm, kubelet and kubectl tools and hold their package version on the control plane, node-1 and node-2
 
@@ -139,16 +137,14 @@ Install kubeadm, kubelet and kubectl tools and hold their package version on the
 
 sudo apt update
 
-sudo apt install -y kubeadm=1.29.0-1.1 kubelet=1.29.0-1.1 kubectl=1.29.0-1.1
-
+sudo apt install -y kubeadm=1.32.0-1.1 kubelet=1.32.0-1.1 kubectl=1.32.0-1.1
 sudo apt-mark hold kubeadm kubelet kubectl
 
 ```
 
 ```sh
 # control-plane
-sudo kubeadm init --pod-network-cidr 192.168.0.0/16 --kubernetes-version 1.29.0
-
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version=1.32.0
 ```
 Once the installation is completed, set up our access to the cluster on the control plane
 
@@ -168,19 +164,18 @@ But our nodes are in a NotReady state because we haven’t set up networking.
 
 kubectl get nodes
 NAME            STATUS     ROLES           AGE   VERSION
-control-plane   NotReady   control-plane   45s   v1.29.0
+control-plane   NotReady   control-plane   45s   v1.32.0
 
 kubectl get nodes -o wide
 NAME            STATUS     ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
-control-plane   NotReady   control-plane   52s   v1.29.0   172.31.81.34   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
+control-plane   NotReady   control-plane   52s   v1.32.0   172.31.81.34   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
 ```
 Install the Calico network addon to the cluster and verify the status of the nodes
 
 ```sh
 # control-plane
 
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/calico.yaml
-
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/calico.yaml
 ```
 
 ```sh
@@ -227,15 +222,15 @@ Verify our cluster and all the nodes will be in a Ready state on your control pl
 
 kubectl get nodes
 NAME            STATUS   ROLES           AGE     VERSION
-control-plane   Ready    control-plane   7m50s   v1.29.0
-node-1          Ready    <none>          76s     v1.29.0
-node-2          Ready    <none>          79s     v1.29.0
+control-plane   Ready    control-plane   7m50s   v1.32.0
+node-1          Ready    <none>          76s     v1.32.0
+node-2          Ready    <none>          79s     v1.32.0
 
 kubectl get nodes -o wide
 NAME            STATUS   ROLES           AGE     VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION   CONTAINER-RUNTIME
-control-plane   Ready    control-plane   8m12s   v1.29.0   172.31.81.34   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
-node-1          Ready    <none>          98s     v1.29.0   172.31.81.93   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
-node-2          Ready    <none>          101s    v1.29.0   172.31.90.71   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
+control-plane   Ready    control-plane   8m12s   v1.32.0   172.31.81.34   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
+node-1          Ready    <none>          98s     v1.32.0   172.31.81.93   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
+node-2          Ready    <none>          101s    v1.32.0   172.31.90.71   <none>        Ubuntu 22.04.3 LTS   6.2.0-1012-aws   containerd://1.7.2
 
 ```
 
