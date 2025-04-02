@@ -195,7 +195,7 @@ kube-scheduler-control-plane               1/1     Running   0          4m32s
 
 kubectl get nodes
 NAME            STATUS   ROLES           AGE     VERSION
-control-plane   Ready    control-plane   4m53s   v1.29.0
+control-plane   Ready    control-plane   4m53s   v1.32.0
 ```
 Once the networking is enabled, join our workload nodes to the cluster
 Get the join command from the control plane using kubeadm
